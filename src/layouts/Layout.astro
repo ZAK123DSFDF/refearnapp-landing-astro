@@ -1,10 +1,24 @@
 ---
 import '../styles/global.css';
-// src/layouts/Layout.astro
+
 interface Props {
-  title: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  indexable?: boolean;
 }
-const { title } = Astro.props;
+
+const {
+  title = 'RefearnApp | Launch Your Affiliate Program in Minutes',
+  description = 'RefearnApp gives SaaS founders a simple, powerful way to run affiliate programs. Track referrals, understand performance, and grow revenue—without the technical overhead.',
+  image = '/opengraph-update.png',
+  indexable = true,
+} = Astro.props;
+
+const siteUrl = 'https://refearnapp.com';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+// Twitter/OG require absolute URLs (https://...)
+const socialImageURL = new URL(image, siteUrl);
 ---
 
 <!doctype html>
@@ -13,51 +27,35 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
     <meta
-      name="description"
-      content="RefearnApp gives SaaS founders a simple, powerful way to run affiliate programs. Track referrals, understand performance, and grow revenue—without the technical overhead."
+      name="robots"
+      content={indexable ? 'index, follow' : 'noindex, nofollow'}
     />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://refearnapp.com" />
 
     <link rel="icon" href="/refearnapp.svg" type="image/svg+xml" />
     <link rel="icon" type="image/x-icon" sizes="96x96" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://refearnapp.com" />
-    <meta property="og:site_name" content="RefearnApp" />
-    <meta
-      property="og:title"
-      content="RefearnApp | Launch Your Affiliate Program in Minutes"
-    />
-    <meta
-      property="og:description"
-      content="RefearnApp gives SaaS founders a simple, powerful way to run affiliate programs. Track referrals, understand performance, and grow revenue—without the technical overhead."
-    />
-    <meta
-      property="og:image"
-      content="https://refearnapp.com/opengraph-update.png"
-    />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="RefearnApp" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="RefearnApp | Launch Your Affiliate Program in Minutes"
-    />
-    <meta
-      name="twitter:description"
-      content="RefearnApp gives SaaS founders a simple, powerful way to run affiliate programs. Track referrals, understand performance, and grow revenue—without the technical overhead."
-    />
-    <meta
-      name="twitter:image"
-      content="https://refearnapp.com/opengraph-update.png"
-    />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+    <meta name="twitter:image:alt" content={title} />
   </head>
   <body class="bg-white text-slate-900">
-    <div class="flex min-h-screen flex-col">
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>
