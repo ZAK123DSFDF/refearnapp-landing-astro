@@ -16,9 +16,11 @@ const {
 } = Astro.props;
 
 const siteUrl = 'https://refearnapp.com';
-const canonicalURL = new URL(Astro.url.pathname, siteUrl);
-// Twitter/OG require absolute URLs (https://...)
-const socialImageURL = `${siteUrl}${image.startsWith('/') ? image : '/' + image}`;
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
+
+// Ensure we have a pure absolute string without double slashes
+const cleanImagePath = image.startsWith('/') ? image : `/${image}`;
+const socialImageURL = `${siteUrl}${cleanImagePath}`;
 ---
 
 <!doctype html>
@@ -53,6 +55,8 @@ const socialImageURL = `${siteUrl}${image.startsWith('/') ? image : '/' + image}
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
+    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:image:height" content="630" />
     <meta name="twitter:image:alt" content={title} />
   </head>
   <body class="bg-white text-slate-900">
