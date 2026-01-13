@@ -18,7 +18,7 @@ const {
 const siteUrl = 'https://refearnapp.com';
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 // Twitter/OG require absolute URLs (https://...)
-const socialImageURL = new URL(image, siteUrl);
+const socialImageURL = `${siteUrl}${image.startsWith('/') ? image : '/' + image}`;
 ---
 
 <!doctype html>
