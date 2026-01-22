@@ -28,6 +28,18 @@ const socialImageURL = `${siteUrl}${cleanImagePath}`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <script
+      async
+      is:inline
+      src="https://www.googletagmanager.com/gtag/js?id=G-WHQRG09NZ7"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-WHQRG09NZ7');
+    </script>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
