@@ -9,53 +9,41 @@ const supportEmail =
   class="fixed top-0 right-0 left-0 z-50 bg-transparent px-3 py-4 transition-all duration-300 ease-in-out"
 >
   <div class="mx-auto flex max-w-5xl items-center justify-between px-4">
-    <Logo sizeClass="h-10" />
+    <a href="/" class="flex items-center">
+      <Logo sizeClass="h-10" />
+    </a>
 
-    <nav class="hidden space-x-8 lg:flex">
+    <nav class="hidden items-center space-x-8 lg:flex">
       <a
         href="#features"
-        class="nav-link text-foreground/70 hover:text-primary font-medium transition-all duration-200 ease-in-out hover:scale-105"
+        class="nav-link hover:text-primary font-medium text-slate-600 transition-all duration-200 ease-in-out hover:scale-105"
         >Features</a
       >
       <a
         href="#how-it-works"
-        class="nav-link text-foreground/70 hover:text-primary font-medium transition-all duration-200 ease-in-out hover:scale-105"
+        class="nav-link hover:text-primary font-medium text-slate-600 transition-all duration-200 ease-in-out hover:scale-105"
         >How It Works</a
       >
       <a
         href="#testimonials"
-        class="nav-link text-foreground/70 hover:text-primary font-medium transition-all duration-200 ease-in-out hover:scale-105"
+        class="nav-link hover:text-primary font-medium text-slate-600 transition-all duration-200 ease-in-out hover:scale-105"
         >Testimonials</a
       >
       <a
         href="#pricing"
-        class="nav-link text-foreground/70 hover:text-primary font-medium transition-all duration-200 ease-in-out hover:scale-105"
+        class="nav-link hover:text-primary font-medium text-slate-600 transition-all duration-200 ease-in-out hover:scale-105"
         >Pricing</a
       >
       <a
         href={supportEmail}
-        class="nav-link text-foreground/70 hover:text-primary font-medium transition-all duration-200 ease-in-out hover:scale-105"
+        class="nav-link hover:text-primary font-medium text-slate-600 transition-all duration-200 ease-in-out hover:scale-105"
         >Support</a
       >
     </nav>
 
-    <div class="hidden items-center space-x-4 lg:flex">
-      <a
-        href="/login"
-        class="nav-link text-foreground/70 hover:text-primary font-medium transition-all duration-200 ease-in-out hover:scale-105"
-        >Log in</a
-      >
-      <a
-        href="/signup"
-        class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-5 py-2.5 font-semibold shadow-sm transition-all duration-200 hover:scale-105 active:scale-95"
-      >
-        Get Started
-      </a>
-    </div>
-
     <button
       id="menu-toggle"
-      class="hover:bg-muted text-foreground rounded-md p-2 focus:outline-none lg:hidden"
+      class="hover:bg-muted rounded-md p-2 text-slate-900 focus:outline-none lg:hidden"
     >
       <svg
         id="menu-icon"
@@ -81,43 +69,29 @@ const supportEmail =
     <nav class="flex flex-col space-y-6">
       <a
         href="#features"
-        class="mobile-link text-foreground/80 hover:text-primary text-lg font-medium transition-all duration-200 hover:translate-x-2"
+        class="mobile-link hover:text-primary text-lg font-medium text-slate-700 transition-all duration-200"
         >Features</a
       >
       <a
         href="#how-it-works"
-        class="mobile-link text-foreground/80 hover:text-primary text-lg font-medium transition-all duration-200 hover:translate-x-2"
+        class="mobile-link hover:text-primary text-lg font-medium text-slate-700 transition-all duration-200"
         >How It Works</a
       >
       <a
         href="#testimonials"
-        class="mobile-link text-foreground/80 hover:text-primary text-lg font-medium transition-all duration-200 hover:translate-x-2"
+        class="mobile-link hover:text-primary text-lg font-medium text-slate-700 transition-all duration-200"
         >Testimonials</a
       >
       <a
         href="#pricing"
-        class="mobile-link text-foreground/80 hover:text-primary text-lg font-medium transition-all duration-200 hover:translate-x-2"
+        class="mobile-link hover:text-primary text-lg font-medium text-slate-700 transition-all duration-200"
         >Pricing</a
       >
       <a
         href={supportEmail}
-        class="mobile-link text-foreground/80 hover:text-primary text-lg font-medium transition-all"
+        class="mobile-link hover:text-primary text-lg font-medium text-slate-700 transition-all"
         >Support</a
       >
-
-      <div class="border-border flex justify-between space-y-4 border-t pt-6">
-        <a
-          href="/login"
-          class="mobile-link text-foreground/80 hover:text-primary text-lg font-medium transition-all"
-          >Log in</a
-        >
-        <a
-          href="/signup"
-          class="bg-primary text-primary-foreground rounded-full px-4 py-3 text-center font-bold shadow-md transition-all active:scale-95"
-        >
-          Get Started
-        </a>
-      </div>
     </nav>
   </div>
 </header>
@@ -129,7 +103,7 @@ const supportEmail =
   const mobileMenu = document.getElementById('mobile-menu');
   const menuIcon = document.getElementById('menu-icon');
 
-  // Scroll Logic
+  // Scroll Logic: Adds white background and shadow when scrolling down
   window.addEventListener('scroll', () => {
     if (window.scrollY > 10) {
       header?.classList.add('bg-white/80', 'backdrop-blur-md', 'shadow-sm');
@@ -140,7 +114,7 @@ const supportEmail =
     }
   });
 
-  // Toggle Logic
+  // Mobile Menu Toggle Logic
   menuToggle?.addEventListener('click', () => {
     const isHidden = mobileMenu?.classList.toggle('hidden');
     if (menuIcon) {
@@ -150,7 +124,7 @@ const supportEmail =
     }
   });
 
-  // Mobile links logic
+  // Close Mobile Menu on link click
   document.querySelectorAll('.mobile-link').forEach((link) => {
     link.addEventListener('click', () => {
       mobileMenu?.classList.add('hidden');
