@@ -1,6 +1,54 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { initializePaddle } from '@paddle/paddle-js';
+const PADDLE_TOKEN = import.meta.env.PUBLIC_PADDLE_TOKEN;
+const PADDLE_ENV = import.meta.env.PUBLIC_PADDLE_ENV;
+const PADDLE_IDS = {
+  pro_one_time: import.meta.env.PUBLIC_PADDLE_PRO_ID,
+  ult_one_time: import.meta.env.PUBLIC_PADDLE_ULT_ID,
+};
+const activePaddle = ref(null);
+onMounted(async () => {
+  const paddleInstance = await initializePaddle({
+    token: PADDLE_TOKEN,
+    environment: PADDLE_ENV,
+    eventCallback: (event) => {
+      if (event.name === 'checkout.completed') {
+        const txnId = event.data.transaction_id;
+        window.location.href = `/signup?txn=${txnId}`;
+      }
+    },
+  });
 
+  if (paddleInstance) {
+    activePaddle.value = paddleInstance;
+  }
+});
+
+const handleAction = (plan) => {
+  if (billingMode.value === 'PURCHASE') {
+    const priceId =
+      plan === 'pro' ? PADDLE_IDS.pro_one_time : PADDLE_IDS.ult_one_time;
+
+    // Safety check: ensure Paddle is ready
+    if (!activePaddle.value) {
+      console.error('Paddle is still loading...');
+      return;
+    }
+
+    activePaddle.value.Checkout.open({
+      settings: {
+        displayMode: 'overlay',
+        theme: 'light',
+        // Optional: you can add a success URL here
+        // successUrl: 'https://your-site.com/success'
+      },
+      items: [{ priceId: priceId, quantity: 1 }],
+    });
+  } else {
+    window.location.href = '/signup';
+  }
+};
 const billingMode = ref('PURCHASE'); // 'PURCHASE' or 'SUBSCRIPTION'
 const cycle = ref('MONTHLY'); // 'MONTHLY' or 'YEARLY'
 
@@ -34,9 +82,6 @@ const prices = computed(() => {
     saved: { pro: 48, ult: 84 },
   };
 });
-
-const baseBtn =
-  'flex-1 flex items-center justify-center px-3 md:px-8 py-2.5 md:py-3 rounded-xl font-bold transition-all text-xs md:text-base whitespace-nowrap';
 </script>
 
 <template>
@@ -55,13 +100,13 @@ const baseBtn =
 
       <div class="mb-12 flex w-full flex-col items-center gap-6 px-2">
         <div
-          class="border-border relative inline-flex w-full max-w-[340px] rounded-2xl border bg-gray-200/50 p-1 md:max-w-md md:p-1.5"
+          class="border-border relative inline-flex w-full max-w-85 rounded-2xl border bg-gray-200/50 p-1 md:max-w-md md:p-1.5"
         >
           <div class="absolute -top-4 -left-2 z-10 md:-left-6">
             <span
               class="inline-block -rotate-12 transform rounded-lg border-2 border-white bg-yellow-400 px-3 py-1 text-[10px] font-black tracking-wider text-black uppercase shadow-lg md:text-xs"
             >
-              Special Offer
+              LIMITED TIME OFFER
             </span>
           </div>
           <button
@@ -135,7 +180,7 @@ const baseBtn =
 
       <div class="flex flex-wrap items-stretch justify-center gap-8 px-2">
         <div
-          class="border-border flex w-full max-w-[340px] flex-col rounded-[2rem] border bg-white p-8 text-left shadow-sm transition-all hover:shadow-md"
+          class="border-border flex w-full max-w-85 flex-col rounded-4xl border bg-white p-8 text-left shadow-sm transition-all hover:shadow-md"
         >
           <div class="mb-8">
             <div class="mb-2 flex items-center gap-2">
@@ -196,7 +241,7 @@ const baseBtn =
               </div>
             </div>
           </div>
-          <ul class="mb-8 flex-grow space-y-4 text-slate-600">
+          <ul class="mb-8 grow space-y-4 text-slate-600">
             <li
               v-for="f in featuresList.filter((f) => f.pro)"
               :key="f.name"
@@ -219,13 +264,17 @@ const baseBtn =
           </ul>
           <a
             href="/signup"
+            @click.prevent="handleAction('pro')"
             class="block w-full rounded-2xl bg-slate-900 py-4 text-center font-bold text-white transition-all hover:scale-[1.02] hover:bg-slate-800 active:scale-95"
-            >Start 14-Day Trial</a
           >
+            {{
+              billingMode === 'PURCHASE' ? 'Buy Pro Plan' : 'Start 14-Day Trial'
+            }}
+          </a>
         </div>
 
         <div
-          class="border-primary relative flex w-full max-w-[340px] flex-col overflow-hidden rounded-[2rem] border-2 bg-slate-900 p-8 text-left text-white shadow-2xl transition-all hover:scale-[1.02]"
+          class="border-primary relative flex w-full max-w-85 flex-col overflow-hidden rounded-4xl border-2 bg-slate-900 p-8 text-left text-white shadow-2xl transition-all hover:scale-[1.02]"
         >
           <div
             class="bg-primary absolute top-0 right-0 rounded-bl-xl px-4 py-1.5 text-[10px] font-black tracking-widest text-white uppercase"
@@ -284,7 +333,7 @@ const baseBtn =
               </div>
             </div>
           </div>
-          <ul class="mb-8 flex-grow space-y-4">
+          <ul class="mb-8 grow space-y-4">
             <li
               v-for="f in featuresList.filter((f) => f.ultimate)"
               :key="f.name"
@@ -296,9 +345,15 @@ const baseBtn =
           </ul>
           <a
             href="/signup"
+            @click.prevent="handleAction('ult')"
             class="bg-primary hover:bg-primary/90 shadow-primary/20 block w-full rounded-2xl py-4 text-center font-bold text-white shadow-lg transition-all active:scale-95"
-            >Start 14-Day Trial</a
           >
+            {{
+              billingMode === 'PURCHASE'
+                ? 'Buy Ultimate Plan'
+                : 'Start 14-Day Trial'
+            }}
+          </a>
         </div>
       </div>
     </div>

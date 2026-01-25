@@ -64,12 +64,15 @@
                 class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
               >
                 <video
-                  controls
+                  autoplay
+                  muted
+                  loop
                   playsinline
+                  controls
+                  preload="auto"
                   class="aspect-video w-full object-cover"
-                  poster="/opengraph-update.png"
                 >
-                  <source :src="step.video" type="video/mp4" />
+                  <source :src="step.video + '#t=0.001'" type="video/mp4" />
                 </video>
               </div>
             </div>
@@ -77,22 +80,64 @@
         </div>
 
         <div class="sticky top-1/4 hidden lg:col-span-7 lg:block">
-          <div class="mb-6 flex w-full gap-3 px-2">
-            <div
-              v-for="(_, i) in steps"
-              :key="i"
-              class="relative h-2 flex-1 overflow-hidden rounded-full bg-slate-200 transition-all duration-500"
-              :class="{ 'ring-2 ring-blue-600/20': activeStep === i }"
-            >
+          <div class="mb-6 flex items-center gap-4 px-2">
+            <div class="flex flex-1 gap-2">
               <div
-                class="absolute inset-0 bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.5)] transition-transform duration-700 ease-out"
-                :style="{
-                  transform:
-                    activeStep >= i ? 'translateX(0)' : 'translateX(-100%)',
-                }"
-              ></div>
+                v-for="(_, i) in steps"
+                :key="i"
+                class="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-200"
+              >
+                <div
+                  class="absolute inset-0 bg-blue-600 transition-transform duration-700 ease-out"
+                  :style="{
+                    transform:
+                      activeStep >= i ? 'translateX(0)' : 'translateX(-100%)',
+                  }"
+                ></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1">
+              <button
+                @click="prevStep"
+                :disabled="activeStep === 0"
+                class="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-600 shadow-sm transition-all hover:bg-blue-600 hover:text-white disabled:opacity-30"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+              <button
+                @click="nextStep"
+                :disabled="activeStep === steps.length - 1"
+                class="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-600 shadow-sm transition-all hover:bg-blue-600 hover:text-white disabled:opacity-30"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
             </div>
           </div>
+
           <div
             class="group relative overflow-hidden rounded-[2.5rem] border border-white bg-white p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)]"
           >
@@ -120,11 +165,15 @@
                     autoplay
                     muted
                     loop
+                    controls
                     playsinline
+                    preload="auto"
                     class="h-full w-full object-cover"
-                    poster="/opengraph-update.png"
                   >
-                    <source :src="steps[activeStep].video" type="video/mp4" />
+                    <source
+                      :src="steps[activeStep].video + '#t=0.001'"
+                      type="video/mp4"
+                    />
                   </video>
                 </Transition>
               </div>
@@ -143,7 +192,6 @@
 import { ref, onMounted } from 'vue';
 
 const activeStep = ref(0);
-
 const steps = [
   {
     number: '01',
@@ -191,28 +239,29 @@ const steps = [
 const scrollToStep = (index) => {
   const el = document.getElementById('step-trigger-' + index);
   if (el) {
-    window.scrollTo({
-      top: el.offsetTop - window.innerHeight / 3,
-      behavior: 'smooth',
-    });
+    const offset = window.innerHeight / 3;
+    window.scrollTo({ top: el.offsetTop - offset, behavior: 'smooth' });
   }
 };
 
-onMounted(() => {
-  const observerOptions = {
-    root: null,
-    rootMargin: '-30% 0% -30% 0%', // Trigger closer to middle
-    threshold: 0.2,
-  };
+const nextStep = () => {
+  if (activeStep.value < steps.length - 1) scrollToStep(activeStep.value + 1);
+};
+const prevStep = () => {
+  if (activeStep.value > 0) scrollToStep(activeStep.value - 1);
+};
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const index = parseInt(entry.target.id.split('-').pop());
-        activeStep.value = index;
-      }
-    });
-  }, observerOptions);
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeStep.value = parseInt(entry.target.id.split('-').pop());
+        }
+      });
+    },
+    { rootMargin: '-30% 0% -30% 0%', threshold: 0.2 },
+  );
 
   document.querySelectorAll('.step-item').forEach((el) => observer.observe(el));
 });
@@ -227,17 +276,13 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
-
 .fade-slide-enter-active {
   transition: all 0.5s ease-out;
+  width: 100%;
 }
 .fade-slide-enter-from {
   opacity: 0;
   transform: translateX(-20px);
-}
-.fade-slide-enter-active {
-  transition: all 0.5s ease-out;
-  width: 100%;
 }
 .sticky {
   will-change: transform;

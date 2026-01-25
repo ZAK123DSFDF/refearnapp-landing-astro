@@ -14,6 +14,9 @@ importers:
       '@astrojs/vue':
         specifier: ^5.1.4
         version: 5.1.4(astro@5.16.9(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(typescript@5.9.3))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(vue@3.5.26(typescript@5.9.3))
+      '@paddle/paddle-js':
+        specifier: ^1.6.1
+        version: 1.6.1
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.1.18(vite@6.4.1(jiti@2.6.1)(lightningcss@1.30.2))
@@ -843,6 +846,9 @@ packages:
 
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
+
+  '@paddle/paddle-js@1.6.1':
+    resolution: {integrity: sha512-Yh6i99Wz22EcJ0KyZfTxzzDHduet3fpKmqEKSmZlHxlgIXDyBjkzdGNWw3/yR7Esdvr6HuLu3WfDTod5lC0alw==}
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -3392,6 +3398,8 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   '@oslojs/encoding@1.1.0': {}
+
+  '@paddle/paddle-js@1.6.1': {}
 
   '@polka/url@1.0.0-next.29': {}
 
