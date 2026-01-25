@@ -7,7 +7,17 @@ const faqData = [
   {
     question: 'Can I try RefearnApp for free?',
     answer:
-      'Yes! You can try RefearnApp completely free for 14 days. During your trial, you’ll have full access to all features—no credit card required. This allows you to explore the dashboard, set up your affiliate program, and understand how RefearnApp can help grow your SaaS.',
+      'Yes! You can start a 14-day free trial on any of our subscription plans to explore all features—no credit card required. Please note that the Lifetime (One-Time) deals do not include a trial period; they are limited-time offers available for immediate purchase to secure permanent access at a single price.',
+  },
+  {
+    question: 'How long will the Lifetime (One-Time) deals be available?',
+    answer:
+      'Our One-Time purchase options are part of a special launch offer and are available for a limited time only. We reserve the right to remove these deals at any moment. Once the offer ends, RefearnApp will transition exclusively to a subscription-based model, so we recommend securing your lifetime access while it’s still visible on the pricing page.',
+  },
+  {
+    question: 'Do you offer a money-back guarantee?',
+    answer:
+      'Absolutely. We stand by our product with a 30-day money-back guarantee for both our lifetime deals and subscription plans. If RefearnApp isn’t the right fit for your SaaS within the first 30 days, just reach out to our support team, and we will issue a full refund—no questions asked.',
   },
   {
     question: 'Which platforms does RefearnApp support?',
@@ -17,12 +27,12 @@ const faqData = [
   {
     question: 'How do I pay my affiliates?',
     answer:
-      'At the moment, you can export a complete CSV payout file directly from your dashboard. This CSV contains all affiliate earnings for the selected period and can be used to send payments quickly and easily through PayPal. We plan to introduce additional payout options and automated payment flows in future updates to make the process even more seamless.',
+      'You can export a complete CSV payout file directly from your dashboard. This contains all affiliate earnings for the selected period and can be used to send payments through PayPal Mass Pay or other processors. We plan to introduce automated payment flows in future updates.',
   },
   {
     question: 'Can I set how long affiliates get paid?',
     answer:
-      'Absolutely. RefearnApp allows you to define how long an affiliate should continue receiving commissions. You can configure both the duration value and the time unit—days, weeks, or months—giving you complete flexibility over your commission structure.',
+      'Absolutely. RefearnApp allows you to define exactly how long an affiliate should receive commissions—whether it’s for a few months or for the lifetime of the customer. You have complete control over the duration and time units.',
   },
 ];
 
