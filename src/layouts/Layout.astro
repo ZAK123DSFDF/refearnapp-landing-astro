@@ -62,6 +62,7 @@ const socialImageURL = `${siteUrl}/${cleanImagePath}`; // Manually add exactly o
     <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:domain" content="refearnapp.com" />
     <meta
       name="twitter:url"
       content={new URL(Astro.url.pathname, siteUrl).href}
@@ -69,12 +70,7 @@ const socialImageURL = `${siteUrl}/${cleanImagePath}`; // Manually add exactly o
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
-    <meta name="twitter:image:secure_url" content={socialImageURL} />
-    <meta name="twitter:image:src" content={socialImageURL} />
-    <meta name="twitter:image:width" content="1200" />
-    <meta name="twitter:image:height" content="630" />
     <meta name="twitter:image:alt" content={title} />
-
     <link rel="icon" href="/refearnapp.svg" type="image/svg+xml" />
     <link rel="icon" type="image/x-icon" sizes="96x96" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
