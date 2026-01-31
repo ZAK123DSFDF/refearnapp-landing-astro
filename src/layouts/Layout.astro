@@ -15,7 +15,7 @@ const {
   indexable = true,
 } = Astro.props;
 
-const siteUrl = 'refearnapp.com'; // No trailing slash
+const siteUrl = 'https://refearnapp.com'; // No trailing slash
 
 const cleanImagePath = image.startsWith('/') ? image.slice(1) : image; // Remove leading slash if it exists
 const socialImageURL = `${siteUrl}/${cleanImagePath}`; // Manually add exactly one slash
