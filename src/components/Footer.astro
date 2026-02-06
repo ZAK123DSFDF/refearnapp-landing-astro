@@ -1,8 +1,9 @@
 ---
 import Logo from './Logo.astro';
+import { competitors } from '../data/competitors.ts';
+import { freeTools } from '../data/tools.ts';
 const currentYear = new Date().getFullYear();
 
-// Define your navigation links here to keep the HTML clean
 const links = [
   { name: 'Features', href: '#features' },
   { name: 'How It Works', href: '#how-it-works' },
@@ -19,6 +20,7 @@ const legalLinks = [
   { name: 'Privacy Policy', href: '/privacy-policy' },
   { name: 'Refund Policy', href: '/refund-policy' },
 ];
+
 const socials = [
   {
     name: 'X (Twitter)',
@@ -34,13 +36,15 @@ const socials = [
 ---
 
 <footer class="bg-secondary/50 border-border border-t px-3 py-16">
-  <div class="mx-auto max-w-5xl px-4">
-    <div class="flex flex-col justify-between gap-12 md:flex-row">
-      <div class="max-w-sm space-y-4">
+  <div class="mx-auto max-w-7xl px-4">
+    <div
+      class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5"
+    >
+      <div class="space-y-4 lg:col-span-2">
         <div class="flex items-center gap-2">
           <Logo sizeClass="h-10" />
         </div>
-        <p class="leading-relaxed text-slate-500">
+        <p class="max-w-xs leading-relaxed text-slate-500">
           The most elegant way to build your affiliate marketing program for
           your SaaS business.
         </p>
@@ -58,7 +62,6 @@ const socials = [
                   class="h-5 w-5 fill-current"
                   role="img"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d={social.icon} />
                 </svg>
@@ -70,7 +73,7 @@ const socials = [
 
       <div>
         <h4 class="mb-4 font-bold text-slate-900">Explore</h4>
-        <ul class="space-y-2">
+        <ul class="space-y-2 text-sm">
           {
             links.map((link) => (
               <li>
@@ -85,10 +88,50 @@ const socials = [
           }
         </ul>
       </div>
+
+      <div>
+        <h4 class="mb-4 font-bold text-slate-900">Alternatives</h4>
+        <ul
+          class="no-scrollbar max-h-60 space-y-2 overflow-y-auto pr-2 text-sm"
+        >
+          {
+            competitors.map((comp) => (
+              <li>
+                <a
+                  href={`/alternative/${comp.slug}`}
+                  class="hover:text-primary whitespace-nowrap text-slate-500 transition-colors"
+                >
+                  {comp.name} Alternative
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="mb-4 font-bold text-slate-900">Growth Tools</h4>
+        <ul
+          class="no-scrollbar max-h-60 space-y-2 overflow-y-auto pr-2 text-sm"
+        >
+          {
+            freeTools.map((tool) => (
+              <li>
+                <a
+                  href={`/tools/${tool.slug}`}
+                  class="hover:text-primary text-slate-500 transition-colors"
+                >
+                  {tool.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
 
     <div
-      class="border-border mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row"
+      class="border-border mt-16 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row"
     >
       <p class="text-sm text-slate-500">
         &copy; {currentYear} RefearnApp. All rights reserved.
@@ -109,3 +152,22 @@ const socials = [
     </div>
   </div>
 </footer>
+
+<style>
+  /* Custom Scrollbar Styling */
+  .no-scrollbar::-webkit-scrollbar {
+    width: 3px;
+  }
+  .no-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .no-scrollbar::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #e2e8f0 transparent;
+  }
+</style>
